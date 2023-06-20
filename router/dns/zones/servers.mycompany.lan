@@ -1,0 +1,21 @@
+$ORIGIN servers.mycompany.lan.
+
+$TTL		604800
+@		IN		SOA		servers.mycompany.lan. admin.lan. (
+							2023061001
+							604800
+							86400
+							2419200
+							604800
+						)
+
+; name servers - NS records
+@		IN		NS		dns
+
+; aliases
+router		IN		CNAME		dns
+
+; A records
+dns		IN		A		192.168.3.1
+crm		IN		SRV 0 0 80	192.168.3.3
+
