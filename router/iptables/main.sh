@@ -65,3 +65,17 @@ ruleAndLog "-A INPUT -p tcp -i $ext_iface -m state --state RELATED,ESTABLISHED" 
 # source port might be random
 ruleAndLog "-A OUTPUT -p udp -d $local_subnets -m state --state RELATED,ESTABLISHED" "DNS repl to lan" "allow DNS replies to lan"
 ruleAndLog "-A OUTPUT -p tcp -d $local_subnets -m state --state RELATED,ESTABLISHED" "DNS repl to lan" "allow DNS replies to lan"
+
+############ CHRONY ###############
+
+# allow requests from lan
+ruleAndLog "-A INPUT -p udp --dport 123 -s $local_subnets -m state --state NEW" "NTP req from lan" "allow NTP requests from lan"
+
+# allow replies to lan
+ruleAndLog "-A OUTPUT -p udp --dport 123 -d $local_subnets -m state --state ESTABLISHED,RELATED" "NTP repl to lan" "allow NTP replies to lan"
+
+# allow requests to wan
+ruleAndLog "-A OUTPUT -p udp --dport 123 -o $ext_iface -m state --state NEW" "NTP req to wan" "allow NTP requests to wan"
+
+# allow replies from wan
+ruleAndLog "-A INPUT -p udp --dport 123 -i $ext_iface -m state --state ESTABLISHED,RELATED" "NTP repl from lan" "allow NTP replies from wan"
