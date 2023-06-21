@@ -1,36 +1,7 @@
 #!/bin/bash
 
-IPTABLES=$(which iptables)
-
-sales_dep="192.168.4.0/24"
-customercare_dep="192.168.5.0/24"
-servers_dep="192.168.3.0/24"
-local_subnets="$servers_dep,$sales_dep,$customercare_dep"
-local="127.0.0.0/8"
-ext_iface="$(getiface 100)"
-
-function ruleAndLog() {
-	match="$1"
-	prefix="$2"
-	comment="$3"
-	target="$4"
-
-	if [ -z "$target" ]; then
-		target=ACCEPT
-	fi
-
-	$IPTABLES $match -m comment --comment="$comment" -j LOG --log-prefix="[IPTABLES-$prefix] "
-	$IPTABLES $match -m comment --comment="$comment" -j $target
-}
-
-$IPTABLES -F	# delete rules
-$IPTABLES -X	# delete user-defined chains
-$IPTABLES -Z	# zero the counters
-
-for chain in $(echo -ne "PREROUTING\nINPUT\nOUTPUT\nPOSTROUTING"); do
-	$IPTABLES -t nat -F
-	$IPTABLES -t nat -X
-done;
+source ./reset.sh
+source ./core.sh
 
 # set drop policies and log prefixes
 for chain in $(echo -ne "INPUT\nOUTPUT\nFORWARD"); do
@@ -38,17 +9,8 @@ for chain in $(echo -ne "INPUT\nOUTPUT\nFORWARD"); do
 done;
 
 
-
 ############ TESTING ###############
-
-# allow ssh server requests from wan
-ruleAndLog "-A INPUT -p tcp --dport 22 -i $ext_iface" "TEST sshd in" "TEST allow ssh requests from wan"
-
-# allow ssh server replies to wan
-ruleAndLog "-A OUTPUT -p tcp --sport 22 -o $ext_iface" "TEST sshd out" "TEST allow ssh replies to wan"
-
-# allow ssh client requests to wan
-ruleAndLog "-A OUTPUT -p tcp --dport 22 -o $ext_iface" "TEST sshc out" "TEST allow ssh requests to wan"
+host_network="192.168.100.0/24"
 
 # allow inbound packets from wan
 ruleAndLog "-A FORWARD -i $ext_iface -d $local_subnets" "TEST anything inb" "TEST forward anything inbound"
@@ -71,9 +33,6 @@ ruleAndLog "-A INPUT -i $ext_iface -d $local_subnets -m state --state RELATED,ES
 
 # enable forwarding
 sysctl -w net.ipv4.ip_forward=1
-
-# nat all outbound packets
-ruleAndLog "-t nat -A POSTROUTING -o $ext_iface -s $local_subnets" "FWD nat outbound" "nat all outbound packets" MASQUERADE
 
 # allow all outbound packets
 ruleAndLog "-A FORWARD -o $ext_iface -s $local_subnets" "FWD outbound" "forward all outbound packets"
