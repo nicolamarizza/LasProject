@@ -23,8 +23,11 @@ ruleAndLog "-A OUTPUT ! -o $ext_iface -p icmp --icmp-type echo-reply" "TEST ping
 
 ############ GENERAL ###############
 
-# allow everything coming from loopback
-ruleAndLog "-A INPUT -s $local" "GENERAL inp lo" "GENERAL allow input from loopback"
+# allow input from loopback
+ruleAndLog "-A INPUT -i lo" "GENERAL inp lo" "GENERAL allow input from loopback"
+
+# allow output to loopback
+ruleAndLog "-A OUTPUT -o lo" "GENERAL out lo" "GENERAL allow output to loopback"
 
 # allow inbound packets from wan to lan with context
 ruleAndLog "-A INPUT -i $ext_iface -d $local_subnets -m state --state RELATED,ESTABLISHED" "GENERAL inp rel" "GENERAL allow all input related"
@@ -43,8 +46,8 @@ ruleAndLog "-A FORWARD -i $ext_iface -d $local_subnets -m state --state RELATED,
 ############ DNS ###############
 
 # allow requests coming from local subnets
-ruleAndLog "-A INPUT -p udp --dport 53 -s $local,$local_subnets" "DNS req from lan" "allow DNS requests from lan"
-ruleAndLog "-A INPUT -p tcp --dport 53 -s $local,$local_subnets" "DNS req from lan" "allow DNS requests from lan"
+ruleAndLog "-A INPUT -p udp --dport 53 -s $local_subnets" "DNS req from lan" "allow DNS requests from lan"
+ruleAndLog "-A INPUT -p tcp --dport 53 -s $local_subnets" "DNS req from lan" "allow DNS requests from lan"
 	
 # allow forwarding
 ruleAndLog "-A OUTPUT -p udp --dport 53 -o $ext_iface" "DNS forward req" "allow DNS forwarding to wan"
@@ -52,10 +55,10 @@ ruleAndLog "-A OUTPUT -p tcp --dport 53 -o $ext_iface" "DNS forward req" "allow 
 
 # allow replies from forwarders
 # source port as well as destination ports might be random
-ruleAndLog "-A INPUT -p udp -m state --state RELATED,ESTABLISHED -i $ext_iface" "DNS forward reply" "allow DNS replies from wan"
-ruleAndLog "-A INPUT -p tcp -m state --state RELATED,ESTABLISHED -i $ext_iface" "DNS forward reply" "allow DNS replies from wan"
+ruleAndLog "-A INPUT -p udp -i $ext_iface -m state --state RELATED,ESTABLISHED" "DNS forward reply" "allow DNS replies from wan"
+ruleAndLog "-A INPUT -p tcp -i $ext_iface -m state --state RELATED,ESTABLISHED" "DNS forward reply" "allow DNS replies from wan"
 
 # allow responses directed to local subnets
 # source port might be random
-ruleAndLog "-A OUTPUT -p udp -d $local,$local_subnets -m state --state RELATED,ESTABLISHED" "DNS resp to lan" "allow DNS replies to lan"
-ruleAndLog "-A OUTPUT -p tcp -d $local,$local_subnets -m state --state RELATED,ESTABLISHED" "DNS resp to lan" "allow DNS replies to lan"
+ruleAndLog "-A OUTPUT -p udp -d $local_subnets -m state --state RELATED,ESTABLISHED" "DNS repl to lan" "allow DNS replies to lan"
+ruleAndLog "-A OUTPUT -p tcp -d $local_subnets -m state --state RELATED,ESTABLISHED" "DNS repl to lan" "allow DNS replies to lan"
