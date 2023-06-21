@@ -1,8 +1,8 @@
-$ORIGIN servers.mycompany.lan.
+$ORIGIN mycompany.lan.
 
 $TTL		604800
-@		IN		SOA		servers.mycompany.lan. admin.lan. (
-							2023061001
+@		IN		SOA		mycompany.lan. admin.lan. (
+							2023061002
 							604800
 							86400
 							2419200
@@ -17,5 +17,6 @@ router		IN		CNAME		dns
 
 ; A records
 dns		IN		A		192.168.3.1
-crm		IN		SRV 0 0 80	192.168.3.3
+crm		IN		A		192.168.3.3
+kdc		IN		A		192.168.3.4
 

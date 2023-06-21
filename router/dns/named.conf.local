@@ -6,10 +6,10 @@
 // organization
 //include "/etc/bind/zones.rfc1918";
 
-zone "servers.mycompany.lan" {
+zone "mycompany.lan" {
 	
 	type master;
-	file "/etc/bind/zones/servers.mycompany.lan";
+	file "/etc/bind/zones/mycompany.lan";
 
 };
 
