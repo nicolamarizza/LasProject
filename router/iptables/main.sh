@@ -32,6 +32,9 @@ ruleAndLog "-A OUTPUT -o lo" "GENERAL out lo" "GENERAL allow output to loopback"
 # allow inbound packets from wan to lan with context
 ruleAndLog "-A INPUT -i $ext_iface -d $local_subnets -m state --state RELATED,ESTABLISHED" "GENERAL inp rel" "GENERAL allow all input related"
 
+# allow all output to wan
+ruleAndLog "-A OUTPUT -o $ext_iface" "GENERAL out rel" "GENERAL allow router-generated packets to exit to the wan"
+
 ############ FORWARDING ###############
 
 # enable forwarding
