@@ -24,3 +24,8 @@ for ((i=3; i <= 5; i++)); do
 
 done
 
+# allow ssh from kdc to departments
+ruleAndLog "-A FORWARD -p tcp --dport 22 -s $servers_dep -d $sales_dep,$customercare_dep" "SSH kdc to dep" "SSH forward requests by kdc to departments"
+
+# allow ssh replies to the kdc
+ruleAndLog "-A FORWARD -p tcp --dport 22 -s $sales_dep,$customercare_dep -d $servers_dep -m state --state ESTABLISHED,RELATED" "SSH dep to kdc" "SSH forward replies from departments to kdc"
