@@ -2,7 +2,7 @@ $ORIGIN 5.168.192.in-addr.arpa.
 
 $TTL		604800
 @		IN		SOA		customercare.mycompany.lan. admin.lan. (
-							2023061001
+							2023061003
 							604800
 							86400
 							2419200
@@ -10,13 +10,7 @@ $TTL		604800
 						)
 
 ; name servers - NS records
-@		IN			NS		dns.customercare.mycompany.lan.
-
-; aliases
-router.customercare.mycompany.lan.		IN		CNAME		dns.customercare.mycompany.lan.
-
-; A records
-dns.customercare.mycompany.lan.	IN		A		192.168.5.1
+@		IN		NS		dns.customercare.mycompany.lan.
 
 ; PTR records
-1					PTR		dns.customercare.mycompany.lan.
+1				PTR		dns.customercare.mycompany.lan.
