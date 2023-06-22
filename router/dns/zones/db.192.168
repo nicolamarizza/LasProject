@@ -1,0 +1,19 @@
+$ORIGIN 168.192.in-addr.arpa.
+
+$TTL		604800
+@		IN		SOA		mycompany.lan. admin.lan. (
+							2023061003
+							604800
+							86400
+							2419200
+							604800
+						)
+
+; name servers - NS records
+@		IN			NS		dns.mycompany.lan.
+
+; PTR records
+1.3					PTR		dns.mycompany.lan.
+2.3					PTR		kdc1.mycompany.lan.
+5.3					PTR		crm.mycompany.lan.
+
