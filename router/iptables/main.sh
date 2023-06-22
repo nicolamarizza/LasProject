@@ -21,6 +21,12 @@ ruleAndLog "-A INPUT ! -i $ext_iface -p icmp --icmp-type echo-request" "TEST pin
 # allow icmp ping reply to lan
 ruleAndLog "-A OUTPUT ! -o $ext_iface -p icmp --icmp-type echo-reply" "TEST ping repl" "TEST allow icmp ping replies to lan"
 
+# allow icmp ping request to lan
+ruleAndLog "-A OUTPUT ! -o $ext_iface -p icmp --icmp-type echo-request" "TEST ping req" "TEST allow icmp ping requests to lan"
+
+# allow icmp ping reply from lan
+ruleAndLog "-A INPUT ! -i $ext_iface -p icmp --icmp-type echo-reply" "TEST ping repl" "TEST allow icmp ping replies from lan"
+
 ############ GENERAL ###############
 
 # allow input from loopback
