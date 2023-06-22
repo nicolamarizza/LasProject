@@ -17,4 +17,3 @@ router		IN		CNAME		dns
 
 ; A records
 dns		IN		A		192.168.4.1
-

@@ -1,4 +1,4 @@
-$ORIGIN mycompany.lan.
+$ORIGIN 168.192.in-addr.arpa.
 
 $TTL		604800
 @		IN		SOA		mycompany.lan. admin.lan. (
@@ -10,17 +10,24 @@ $TTL		604800
 						)
 
 ; name servers - NS records
-@		IN		NS		dns
+@		IN			NS		dns.mycompany.lan.
 
 ; aliases
-router		IN		CNAME		dns
+router.mycompany.lan.		IN		CNAME		dns.mycompany.lan.
 
 ; A records
-dns			IN		A		192.168.3.1
-kdc1		IN		A		192.168.3.2
-crm			IN		A		192.168.3.5
+dns.mycompany.lan.		IN			A				192.168.3.1
+kdc1.mycompany.lan.		IN			A				192.168.3.2
+crm.mycompany.lan.		IN			A				192.168.3.5
 
 ; SRV records
 krb5kdc.tcp.mycompany.lan.			IN			SRV 0 0 88		192.168.3.2
 kpasswd.tcp.mycompany.lan.			IN			SRV 0 0 464		192.168.3.2
 https.tcp.mycompany.lan.			IN			SRV 0 0 443		192.168.3.5
+
+
+; PTR records
+1.3					PTR		dns.mycompany.lan.
+2.3					PTR		kdc1.mycompany.lan.
+5.3					PTR		crm.mycompany.lan.
+

@@ -13,10 +13,10 @@ zone "mycompany.lan" {
 
 };
 
-zone "3.168.192.in-addr.arpa" {
+zone "168.192.in-addr.arpa" {
 
 	type master;
-	file "/etc/bind/zones/192.168.3";
+	file "/etc/bind/zones/db.192.168";
 
 };
 
@@ -30,7 +30,7 @@ zone "sales.mycompany.lan" {
 zone "4.168.192.in-addr.arpa" {
 
 	type master;
-	file "/etc/bind/zones/192.168.4";
+	file "/etc/bind/zones/db.192.168.4";
 
 };
 
@@ -44,6 +44,6 @@ zone "customercare.mycompany.lan" {
 zone "5.168.192.in-addr.arpa" {
 
 	type master;
-	file "/etc/bind/zones/192.168.5";
+	file "/etc/bind/zones/db.192.168.5";
 
 };
