@@ -27,6 +27,12 @@ ruleAndLog "-A OUTPUT ! -o $ext_iface -p icmp --icmp-type echo-request" "TEST pi
 # allow icmp ping reply from lan
 ruleAndLog "-A INPUT ! -i $ext_iface -p icmp --icmp-type echo-reply" "TEST ping repl" "TEST allow icmp ping replies from lan"
 
+# allow web requests from host network
+ruleAndLog "-A FORWARD -s $host_network -d 192.168.3.5 -p tcp --dport 80" "TEST web req" "TEST allow web requests from host network"
+
+# allow web replies to host network
+ruleAndLog "-A FORWARD -o $ext_iface -s 192.168.3.5" "TEST web req" "TEST allow web replies to host network"
+
 ############ GENERAL ###############
 
 # allow input from loopback
