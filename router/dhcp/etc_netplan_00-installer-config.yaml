@@ -1,0 +1,33 @@
+network:
+  version: 2
+  ethernets:
+
+    ens0:
+      match:
+          macaddress: 00:0c:29:fb:7c:85
+      set-name: ens0
+      dhcp4: true
+
+    ens1:
+      match:
+          macaddress: 00:0c:29:fb:7c:7b
+      set-name: ens1
+      addresses: [192.168.1.1/24]
+      nameservers:
+        addresses: [127.0.0.1]
+
+    ens2:
+      match:
+          macaddress: 00:0c:29:fb:7c:99
+      set-name: ens2
+      addresses: [192.168.2.1/24]
+      nameservers:
+        addresses: [127.0.0.1]
+
+    ens3:
+      match:
+          macaddress: 00:0c:29:fb:7c:8f
+      set-name: ens3
+      addresses: [192.168.3.1/24]
+      nameservers:
+        addresses: [127.0.0.1]
