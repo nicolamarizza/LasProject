@@ -16,11 +16,11 @@ $TTL		604800
 router		IN		CNAME		dns
 
 ; A records
-dns			IN		A		192.168.3.1
-kdc1		IN		A		192.168.3.2
-crm			IN		A		192.168.3.5
+dns			IN		A		192.168.1.1
+kdc1		IN		A		192.168.1.2
+crm			IN		A		192.168.1.5
 
 ; SRV records
-krb5kdc.tcp.mycompany.lan.			IN			SRV 0 0 88		192.168.3.2
-kpasswd.tcp.mycompany.lan.			IN			SRV 0 0 464		192.168.3.2
-https.tcp.mycompany.lan.			IN			SRV 0 0 443		192.168.3.5
+krb5kdc.tcp.mycompany.lan.			IN			SRV 0 0 88		192.168.1.2
+kpasswd.tcp.mycompany.lan.			IN			SRV 0 0 464		192.168.1.2
+https.tcp.mycompany.lan.			IN			SRV 0 0 443		192.168.1.5

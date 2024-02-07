@@ -16,9 +16,9 @@ A few lines have to be added to the /etc/chrony/chrony.conf configuration file.
 
 ```
 server 127.0.0.1
+allow 192.168.1.0/24
+allow 192.168.2.0/24
 allow 192.168.3.0/24
-allow 192.168.4.0/24
-allow 192.168.5.0/24
 ```
 
 The first line tells the NTP server to synchronize with itself.
