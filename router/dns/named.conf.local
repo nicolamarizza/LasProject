@@ -19,31 +19,3 @@ zone "168.192.in-addr.arpa" {
 	file "/etc/bind/zones/db.192.168";
 
 };
-
-zone "sales.mycompany.lan" {
-	
-	type master;
-	file "/etc/bind/zones/sales.mycompany.lan";
-
-};
-
-zone "4.168.192.in-addr.arpa" {
-
-	type master;
-	file "/etc/bind/zones/db.192.168.4";
-
-};
-
-zone "customercare.mycompany.lan" {
-	
-	type master;
-	file "/etc/bind/zones/customercare.mycompany.lan";
-
-};
-
-zone "5.168.192.in-addr.arpa" {
-
-	type master;
-	file "/etc/bind/zones/db.192.168.5";
-
-};

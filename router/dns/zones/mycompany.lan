@@ -10,17 +10,17 @@ $TTL		604800
 						)
 
 ; name servers - NS records
-@		IN		NS		dns
+@		IN		NS		dns.servers
 
 ; aliases
-router		IN		CNAME		dns
+router.servers		IN		CNAME		dns.servers
 
 ; A records
-dns			IN		A		192.168.1.1
-kdc1		IN		A		192.168.1.2
-crm			IN		A		192.168.1.5
+dns.servers			IN		A		192.168.1.1
+kdc1.servers		IN		A		192.168.1.2
+crm.servers			IN		A		192.168.1.5
 
 ; SRV records
-krb5kdc.tcp.mycompany.lan.			IN			SRV 0 0 88		192.168.1.2
+krb5kdc.tcp.mycompany.lan.	 		IN			SRV 0 0 88		192.168.1.2
 kpasswd.tcp.mycompany.lan.			IN			SRV 0 0 464		192.168.1.2
 https.tcp.mycompany.lan.			IN			SRV 0 0 443		192.168.1.5
