@@ -6,16 +6,29 @@
 // organization
 //include "/etc/bind/zones.rfc1918";
 
-zone "mycompany.lan" {
-	
-	type master;
-	file "/etc/bind/zones/mycompany.lan";
+view "servers-view" {
+	match-clients { 192.168.1.0/24; localhost; };
 
+	zone "mycompany.lan" {
+		type master;
+		file "/etc/bind/zones/servers.mycompany.lan";
+	};
 };
 
-zone "168.192.in-addr.arpa" {
+view "sales-view" {
+	match-clients { 192.168.2.0/24; };
 
-	type master;
-	file "/etc/bind/zones/db.192.168";
+	zone "mycompany.lan" {
+		type master;
+		file "/etc/bind/zones/sales.mycompany.lan";
+	};
+};
 
+view "customercare-view" {
+	match-clients { 192.168.3.0/24; };
+
+	zone "mycompany.lan" {
+		type master;
+		file "/etc/bind/zones/customercare.mycompany.lan";
+	};
 };
