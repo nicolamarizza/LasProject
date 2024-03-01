@@ -2,7 +2,7 @@ $ORIGIN mycompany.lan.
 
 $TTL		604800
 @		IN		SOA		mycompany.lan. admin.lan. (
-							2024022805
+							2024022806
 							604800
 							86400
 							2419200
