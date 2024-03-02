@@ -2,7 +2,7 @@ $ORIGIN mycompany.lan.
 
 $TTL		604800
 @		IN		SOA		mycompany.lan. admin.lan. (
-							2024022806
+							2024022807
 							604800
 							86400
 							2419200
@@ -18,5 +18,6 @@ ntp				IN		CNAME		router
 
 ; A records
 router				IN		A		192.168.2.1
-kdc1		IN		A		192.168.1.2
-crm			IN		A		192.168.1.5
+kdc1				IN		A		192.168.1.2
+crm					IN		A		192.168.1.5
+homes				IN		A		192.168.1.6
