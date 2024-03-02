@@ -26,7 +26,7 @@ The authentication-authorization will consist of three steps:
 
 First we need to hop over to the kdc server and create a principal and its relative keytab for our webserver;
 ```
-kadmin.local addprinc -randkey HTTP/crm.mycompany.lan
+kadmin.local addprinc -pw secret HTTP/crm.mycompany.lan
 kadmin.local ktadd -k crm.keytab HTTP/crm.mycompany.lan
 ```
 
@@ -38,23 +38,37 @@ We'll store it as `/etc/apache2/http.keytab`
 
 To provide more advanced authorization mechanics we will rely on the same LDAP database which constitutes the backend for the Kerberos authentication system.
 
-This authorization strategy relies on the Apache2 package **mod_authnz_ldap** which caches authentication and authorization results based on the configuration of **mod_ldap**.
+This authorization strategy relies on the Apache2 package **mod_authnz_ldap** in conjunction to **mod_ldap**.
 
-In the LDAP database back over to the kdc server, we need to add read permissions to the webserver pricipal
+In the LDAP database back over to the kdc server, we need to create an LDAP user for this website.
 
+First, generate a hash for the password of your choice (I chose "secret" for simplicity)
+```
+root@kdc1:~# slappasswd -h {SHA}
+New password: 
+Re-enter new password: 
+{SHA}{SHA}5en6G6MezRroT3XKqkdPOmY/BfQ=
+```
+
+Then create the LDAP user (remember to change the userPassword based on the result of the previous command)
+```
+ldapadd -x -D cn=admin,dc=mycompany,dc=lan -W << EOF
+dn: uid=HTTP/crm.mycompany.lan@MYCOMPANY.LAN,cn=MYCOMPANY.LAN,cn=krbContainer,dc=mycompany,dc=lan
+uid: HTTP/crm.mycompany.lan@MYCOMPANY.LAN
+objectClass: account
+objectClass: simpleSecurityObject
+userPassword: {SHA}5en6G6MezRroT3XKqkdPOmY/BfQ=
+description: Account used by crm.mycompany.lan for authorization purposes
+EOF
+```
+
+Finally allow this user to read the realm subtree
 ```
 ldapmodify -Q -Y EXTERNAL -H ldapi:/// <<EOF
 dn: olcDatabase={1}mdb,cn=config
 add: olcAccess
-olcAccess: {2}to attrs=krbPrincipalName
-  by anonymous auth
-  by dn.exact="cn=HTTP,cn=MYCOMPANY.LAN,cn=krbContainer,dc=mycompany,dc=lan" read
-  by self write
-  by * none
--
-add: olcAccess
-olcAccess: {3}to dn.subtree="cn=krbContainer,dc=mycompany,dc=lan"
-  by dn.exact="cn=HTTP,cn=MYCOMPANY.LAN,cn=krbContainer,dc=mycompany,dc=lan" read
-  by * none
+olcAccess: {2}to dn.subtree=cn=MYCOMPANY.LAN,cn=krbContainer,dc=mycompany,dc=lan
+  by dn.exact="uid=HTTP/crm.mycompany.lan@MYCOMPANY.LAN,cn=MYCOMPANY.LAN,cn=krbContainer,dc=mycompany,dc=lan" read
+  by * read
 EOF
 ```
