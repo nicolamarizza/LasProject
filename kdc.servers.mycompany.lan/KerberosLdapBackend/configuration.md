@@ -110,12 +110,10 @@ Now create two organizational units each for a subnet in our network, namely **s
 ```
 ldapadd -x -H ldapi:/// -D "cn=admin,dc=mycompany,dc=lan" -W <<EOF
 dn: ou=sales,cn=MYCOMPANY.LAN,cn=krbContainer,dc=mycompany,dc=lan
-objectClass: top
 objectClass: organizationalUnit
 ou: sales
 
 dn: ou=customercare,cn=MYCOMPANY.LAN,cn=krbContainer,dc=mycompany,dc=lan
-objectClass: top
 objectClass: organizationalUnit
 ou: customercare
 EOF
@@ -131,7 +129,4 @@ Finally, start the KDC and admin servers
 systemctl start krb5-kdc.service krb5-admin-server.service
 ```
 
-Now, to add a principal:
-```
-kadmin.local -q "addprinc -pw \"$PRINC_PWD\" -x dn=cn=$PRINC_NAME,ou=$PRINC_DEP,$BASE_DN $PRINC_NAME/$PRINC_DEP@MYCOMPANY.LAN"
-```
+Now, to add a principal see `addprinc.sh`
