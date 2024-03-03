@@ -69,6 +69,6 @@ dn: olcDatabase={1}mdb,cn=config
 add: olcAccess
 olcAccess: {2}to dn.subtree=cn=MYCOMPANY.LAN,cn=krbContainer,dc=mycompany,dc=lan
   by dn.exact="uid=HTTP/crm.mycompany.lan@MYCOMPANY.LAN,cn=MYCOMPANY.LAN,cn=krbContainer,dc=mycompany,dc=lan" read
-  by * read
+  by * write
 EOF
 ```
