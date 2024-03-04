@@ -1,10 +1,10 @@
 #!/bin/bash
 
-read -p "LDAP admin password: " LDAP_ADMIN_PWD
+read -ps "LDAP admin password: " LDAP_ADMIN_PWD
 
 read -p "principal name: " PRINC_NAME
 read -p "principal department: " PRINC_DEP
-read -p "principal password: " PRINC_PWD
+read -ps "principal password: " PRINC_PWD
 
 BASE_DN="ou=$PRINC_DEP,cn=MYCOMPANY.LAN,cn=KrbContainer,dc=mycompany,dc=lan"
 PRINC_FULL_NAME="$PRINC_NAME/$PRINC_DEP@MYCOMPANY.LAN"
