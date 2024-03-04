@@ -11,9 +11,4 @@ mkdir -p "$HOME_SHARE"
 chmod 700 "$HOME_SHARE"
 chown $USER_UID:$USER_GID "$HOME_SHARE"
 
-if [ -z "$(grep -E '^/homes' /etc/exports)" ]; then
-    echo -e "/homes\t*(rw,sync,no_subtree_check)" >> /etc/exports
-    systemctl restart nfs-server
-fi
-
 echo "created home share $HOME_SHARE"
