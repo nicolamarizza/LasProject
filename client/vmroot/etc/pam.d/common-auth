@@ -14,7 +14,7 @@
 # pam-auth-update(8) for details.
 
 # here are the per-package modules (the "Primary" block)
-auth    [success=2 default=ignore]      pam_krb5.so minimum_uid=1000 ignore_root force_alt_auth alt_auth_map=%s/sales
+auth    [success=2 default=ignore]      pam_krb5.so minimum_uid=1000 force_alt_auth alt_auth_map=%s/sales
 auth    [success=1 default=ignore]      pam_unix.so nullok try_first_pass
 # here's the fallback if no module succeeds
 auth    requisite                       pam_deny.so

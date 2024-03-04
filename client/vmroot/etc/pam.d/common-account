@@ -22,5 +22,5 @@ account requisite                       pam_deny.so
 # since the modules above will each just jump around
 account required                        pam_permit.so
 # and here are more per-package modules (the "Additional" block)
-account required                        pam_krb5.so minimum_uid=1000 ignore_root force_alt_auth alt_auth_map=%s/sales
+account required                        pam_krb5.so minimum_uid=1000 force_alt_auth alt_auth_map=%s/sales
 # end of pam-auth-update config
