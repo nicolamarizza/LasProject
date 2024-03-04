@@ -95,7 +95,7 @@ fi
 WS_IP="ws$WS_NO.$PRINC_DEP.mycompany.lan"
 if [ -n $WS_IP ]; then
 
-    if ! ssh -i /root/.ssh/id_ed25519 $WS_IP 'bash -s' -- "$PRINC_NAME" "$PRINC_DEP" $USER_UID $USER_GID "$PRINC_PWD" < ./addprinc_remote.sh; then
+    if ! ssh -i /root/.ssh/id_ed25519 $WS_IP 'bash -s' -- "$PRINC_NAME" "$PRINC_DEP" $USER_UID $USER_GID "$PRINC_PWD" < ./addprinc_ws.sh; then
         echo "a problem occurred while creating the user in the remote host"
         exit 3
     fi
