@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 PRINC_NAME=$1
 PRINC_DEP=$2
