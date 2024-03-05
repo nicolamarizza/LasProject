@@ -3,10 +3,13 @@
 source ./clear.sh
 source ./core.sh
 
+# for testing only
+source ./testing.sh
+
 # set drop policies and log prefixes
-for chain in $(echo -ne "INPUT\nOUTPUT\nFORWARD"); do
-	$IPTABLES -P $chain DROP
-done;
+$IPTABLES -P INPUT DROP
+$IPTABLES -P OUTPUT DROP
+$IPTABLES -P FORWARD DROP
 
 ############ GENERAL ###############
 
@@ -69,3 +72,36 @@ addRule "-A OUTPUT -p udp --dport 123 -o $ext_iface -m state --state NEW" "NTP r
 
 # allow replies from wan
 addRule "-A INPUT -p udp --dport 123 -i $ext_iface -m state --state ESTABLISHED,RELATED" "NTP repl from lan" "allow NTP replies from wan"
+
+############ WEBSERVER ###############
+
+# allow HTTP requests from departments to servers
+addRule "-A FORWARD -p tcp --dport 80 -s $departments -d $servers_subnet" "HTTP req" "forward dep HTTP to servers"
+
+# allow HTTP replies from servers to departments
+addRule "-A FORWARD -p tcp --sport 80 -s $servers_subnet -d $departments" "HTTP rep" "forward servers HTTP to dep"
+
+
+############ KERBEROS ###############
+
+# allow TGS_REQ from departments to servers
+addRule "-A FORWARD -p udp --dport 88 -s $departments -d $servers_subnet" "TGS_REQ" "forward TGS_REQ from dep"
+
+# allow TGS_REP from servers to departments
+addRule "-A FORWARD -p udp --sport 88 -s $servers_subnet -d $departments" "TGS_REP" "forward TGS_REP to dep"
+
+############ SSH ###############
+
+# forward admin ssh to workstations
+addRule "-A FORWARD -p tcp --dport 22 -s $admin -d $departments " "SSH admin to ws" "forward admin ssh to workstations"
+
+# forward ssh workstations replies to admin
+addRule "-A FORWARD -p tcp --sport 22 -s $departments -d $admin -m state --state ESTABLISHED,RELATED" "SSH repl to admin" "forward ssh workstations replies to admin"
+
+############ NFS ###############
+
+# forward NFS dep to homes
+addRule "-A FORWARD -p tcp --dport 2049 -s $departments -d $homes " "NFS dep to homes" "forward NFS dep to homes"
+
+# forward NFS homes to dep
+addRule "-A FORWARD -p tcp --sport 2049 -s $homes -d $departments " "NFS homes to dep" "forward NFS homes to dep"

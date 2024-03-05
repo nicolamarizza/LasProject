@@ -1,18 +1,5 @@
 #!/bin/bash
 
-source ./clear.sh
-source ./variables.sh
-
-iptables -P INPUT ACCEPT
-iptables -P OUTPUT ACCEPT
-iptables -P FORWARD ACCEPT
-
-# enable forwarding
-sysctl -w net.ipv4.ip_forward=1
-
-# nat all outbound packets
-addRule "-t nat -A POSTROUTING -o $ext_iface -s $lan" "FWD nat outbound" "nat all outbound packets" MASQUERADE
-
 for ((i=1; i <= 3; i++)); do
 
 	# NETMAP inbound ssh req of type 192.168.XX.0/24 -> 192.168.X.0/24
@@ -21,3 +8,9 @@ for ((i=1; i <= 3; i++)); do
 		"NETMAP --to 192.168.$i.0/24"
 
 done
+
+# forward inbound ssh
+addRule "-A FORWARD -i $ext_iface -d $lan -p tcp --dport 22" "FWD inbound ssh" "forward inbound ssh"
+
+# allow ssh connections to router
+addRule "-A INPUT -i $ext_iface -p tcp --dport 22" "SSH WAN to router" "allow ssh connections to router"

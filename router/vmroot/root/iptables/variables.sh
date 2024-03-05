@@ -3,6 +3,8 @@
 IPTABLES=$(which iptables)
 
 lan="192.168.0.0/16"
+admin="192.168.1.2"
+homes="192.168.1.6"
 servers_subnet="192.168.1.0/24"
 sales_subnet="192.168.2.0/24"
 customercare_subnet="192.168.3.0/24"
