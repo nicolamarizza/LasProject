@@ -3,7 +3,7 @@ network:
   ethernets:
     ens1:
       match:
-        macaddress: 52:54:00:d5:31:6a
+        macaddress: 00:0c:29:80:06:da
       set-name: ens1
       dhcp4: true
       dhcp4-overrides:
