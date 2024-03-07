@@ -1,0 +1,10 @@
+network:
+  version: 2
+  ethernets:
+    ens1:
+      match:
+        macaddress: 52:54:00:d5:31:6a
+      set-name: ens1
+      dhcp4: true
+      dhcp4-overrides:
+        use-dns: true

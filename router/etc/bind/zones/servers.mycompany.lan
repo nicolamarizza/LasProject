@@ -1,0 +1,13 @@
+$INCLUDE /etc/bind/zones/common
+
+; name servers - NS records
+@		IN		NS		router
+
+; aliases
+dns				IN		CNAME		router
+ntp				IN		CNAME		router
+
+; A records
+router              IN		A		192.168.1.1
+ws1.sales			IN		A		192.168.2.5
+ws1.customercare	IN		A		192.168.3.5
