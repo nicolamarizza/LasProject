@@ -4,7 +4,7 @@ source ./clear.sh
 source ./core.sh
 
 # for testing only
-source ./testing.sh
+#source ./testing.sh
 
 # set drop policies and log prefixes
 $IPTABLES -P INPUT DROP
