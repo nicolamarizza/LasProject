@@ -3,7 +3,6 @@ options {
 	dnssec-validation no;
 	listen-on-v6 { any; };
 
-
 	recursion yes;
 	allow-recursion {127.0.0.1; 192.168.1.0/24; 192.168.2.0/24; 192.168.3.0/24;};
 	allow-query-cache {127.0.0.1; 192.168.1.0/24; 192.168.2.0/24; 192.168.3.0/24;};
