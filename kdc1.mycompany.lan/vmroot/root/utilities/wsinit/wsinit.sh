@@ -14,7 +14,7 @@ ssh root@$WS_IP "bash -s" -- $DEP < ./init_remote.sh
 TEMP_DIR=$(mktemp -d)
 cp -r ./etc $TEMP_DIR/
 
-sed -i "s/WS_DEP/$DEP/g" $TEMP_DIR/etc/pam.d/*
+find $TEMP_DIR -type f -exec sed -i "s/WS_DEP/$DEP/g" {} \;
 
 scp -r $TEMP_DIR/etc root@$WS_IP:/
 
