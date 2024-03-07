@@ -81,7 +81,6 @@ addRule "-A FORWARD -p tcp --dport 80 -s $departments -d $servers_subnet" "HTTP 
 # allow HTTP replies from servers to departments
 addRule "-A FORWARD -p tcp --sport 80 -s $servers_subnet -d $departments" "HTTP rep" "forward servers HTTP to dep"
 
-
 ############ KERBEROS ###############
 
 # allow TGS_REQ from departments to servers
@@ -89,6 +88,12 @@ addRule "-A FORWARD -p udp --dport 88 -s $departments -d $servers_subnet" "TGS_R
 
 # allow TGS_REP from servers to departments
 addRule "-A FORWARD -p udp --sport 88 -s $servers_subnet -d $departments" "TGS_REP" "forward TGS_REP to dep"
+
+# allow KPASSWD request from departments
+addRule "-A FORWARD -p tcp --dport 464 -s $departments -d $servers_subnet" "KPASSWD" "forward KPASSWD from dep"
+
+# allow KPASSWD request from departments
+addRule "-A FORWARD -p tcp --sport 464 -s $servers_subnet -d $departments -m state --state ESTABLISHED,RELATED" "KPASSWD" "forward KPASSWD from dep"
 
 ############ SSH ###############
 
