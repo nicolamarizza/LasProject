@@ -2,10 +2,15 @@
 
 IPTABLES=$(which iptables)
 
-servers_dep="192.168.1.0/24"
-sales_dep="192.168.2.0/24"
-customercare_dep="192.168.3.0/24"
-local_subnets="$servers_dep,$sales_dep,$customercare_dep"
+lan="192.168.0.0/16"
+admin="192.168.1.2"
+homes="192.168.1.6"
+servers_subnet="192.168.1.0/24"
+sales_subnet="192.168.2.0/24"
+customercare_subnet="192.168.3.0/24"
+
+departments="$sales_subnet,$customercare_subnet"
+
 ext_iface=ens0
 
 function addRule() {
