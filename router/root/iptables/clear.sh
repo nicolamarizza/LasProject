@@ -2,11 +2,10 @@
 
 IPTABLES=$(which iptables)
 
-$IPTABLES -F	# delete rules
-$IPTABLES -X	# delete user-defined chains
-$IPTABLES -Z	# zero the counters
+# delete rules and zero counters
+$IPTABLES -FZ
+$IPTABLES -t nat -FZ
 
-for chain in $(echo -ne "PREROUTING\nINPUT\nOUTPUT\nPOSTROUTING"); do
-	$IPTABLES -t nat -F
-	$IPTABLES -t nat -X
-done;
+# delete user-defined chains
+$IPTABLES -X
+$IPTABLES -t nat -X
